@@ -3,7 +3,7 @@
 
 
 {% block css  %}
- <link href="{% static 'vendor/css/index.css' %}" rel="stylesheet">
+<link href="{% static 'vendor/css/index.css' %}" rel="stylesheet">
 {% endblock  %}
 
 
@@ -20,12 +20,12 @@
                     Новые образы и лучшие бренды на Store.
                     Бесплатная доставка по всему миру!
                     {% if is_promotion %}
-                        Аутлет: до -70% Собственный бренд.
-                        -20% новым покупателям.
+                    Аутлет: до -70% Собственный бренд.
+                    -20% новым покупателям.
                     {% endif %}
                 </p>
                 <button id="start-purchase-btn" type="button" class="btn btn-lg">
-                    <a id="start-purchase-link" href="{% url 'products' %}">
+                    <a id="start-purchase-link" href="{% url 'products:index' %}">
                         Начать покупки
                     </a>
                 </button>
