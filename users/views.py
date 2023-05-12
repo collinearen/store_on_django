@@ -1,8 +1,10 @@
-from django.shortcuts import render
-from django.contrib import auth
-from users.forms import UserLoginForm, UserRegistrationForm
+from django.contrib import auth, messages
 from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
+
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+
 
 def login(request):
     if request.method == 'POST':
@@ -21,13 +23,30 @@ def login(request):
 
 
 def registration(request):
-    if request.method == 'post':
-        form = UserRegistrationForm()
+    if request.method == 'POST':
+        form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('user:login'))
+            messages.success(request, 'Вы успешно зарегистрировались!')
+            return HttpResponseRedirect(reverse('users:login'))
     else:
         form = UserRegistrationForm()
     context = {'form': form}
     return render(request=request, template_name='users/registration.html', context=context)
 
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('users:profile'))
+    else:
+        form = UserProfileForm(instance=request.user)
+    context = {'title': 'Ruffle профиль', 'form': form}
+    return render(request=request, template_name='users/profile.html', context=context)
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('index'))
