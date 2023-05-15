@@ -34,7 +34,6 @@ def products(request, category_id=None):
     })
 
 
-
 @login_required
 def basket_add(request, product_id):
     product = Product.objects.get(id=product_id)
